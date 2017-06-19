@@ -1,0 +1,57 @@
+<form (ngSubmit)="getAllTranCode()">
+    
+    <table>
+            <th> <input type="text" placeholder="Income Expense Code" required name="uname"  class="form-control"></th> 
+            <th> <input type="text" placeholder="Code Description" required name="Dist"  class="form-control"></th> 
+            <th> <button class="btn btn-primary pull-right btn-md" type="submit" >List</button></th>
+    </table>       
+    
+    <div *ngIf="transListCount"> 
+    <div class="panel panel-default">
+    <div class="panel-heading"> Income-Expenses Code Thanga Jothi Gnana Sabai Trust</div>
+    <table class="table  table-striped">
+        <th>Income Expense Code</th> <th>Description</th> 
+        <div class="item" *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">
+            <tr>
+                    <td>  {{trans.tranCode}}  </td>
+                    <td>  {{trans.tranDesc}}  </td>
+                    <td>
+                    <input type="radio" name="transR" [value]="i" (change) ="onSelection(trans)">
+                    </td>             
+            </tr>
+            <hr>
+        </div>
+    </table>
+    </div>
+
+    <div class="btn-group">
+        <a class="btn btn-info" role="button" (click)="addNewTransaction()" > Add New  </a>
+        <a class="btn btn-info" role="button"(click)="modifyTransaction()" > Modify   </a>
+        <a class="btn btn-info" role="button" (click)="copyNewTransaction()"> Copy    </a>
+        <a class="btn btn-info" role="button"(click)="deleteTransaction()">  Delete  </a>
+    </div>
+
+
+        <div *ngIf="showDetail == 1"> 
+            <div class="input-group">
+            <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="td" 
+                [(ngModel)]="trans.tranCode" placeholder="Tran Code">
+                <span class="input-group-addon bg-primary">Tran Code       </span>
+            </div>
+            
+              <div class="input-group">
+                 
+                <input [disabled]="nonEdit"   id="desc" type="text" class="form-control" name="Desc" 
+                [(ngModel)]="trans.tranDesc" placeholder="Tran Code Description">
+                <span class="input-group-addon">Transcation Description</span>
+            </div>
+            
+            <div class="btn-group">
+                <a class="btn btn-info" role="button"(click)="saveButtonClicked()">  Save  </a>
+                <a class="btn btn-info" role="button"(click)="cancelButtonClicked()">  Cancel  </a>  
+            </div>
+        </div>        
+   
+  </div>
+
+</form>

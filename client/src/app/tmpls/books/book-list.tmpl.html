@@ -1,0 +1,144 @@
+<h2> Book Stock detail - Thanga Jothi Gnana sabai</h2>   
+
+
+  <div class="btn-group">
+      
+        <button type="button" class="btn btn-primary">Select one option</button>
+        <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+            <span class="caret"></span></button>
+
+        <ul class="list-group dropdown-menu">
+            <li class="list-group-item list-group-item-success"><a  (click)="ShowByBookName()">View by Book Name</a></li>
+            <li class="list-group-item list-group-item-success"><a (click)="ShowByLocation()">View by Owner/Location</a></li>
+            <!--li class="divider"></li -->
+            <li class="list-group-item list-group-item-success"><a (click)="AddNewStock()">Add New Stock</a></li>
+            <li class="list-group-item"><a href="#">Sell Book</a></li>
+            <li class="list-group-item" ><a href="#">CycleCount Books</a></li>
+            <li class="list-group-item"><a href="#">Transfer Books</a></li>
+            <!-- li class="divider"></li -->
+            <li class="list-group-item"><a href="#">Take for Service</a></li>
+            <li class="list-group-item"><a href="#">Return from Service</a></li>
+            <li class="list-group-item"><a href="#">Handover to Another Anbar</a></li>
+        </ul>
+    </div>
+   <hr>
+
+
+    <div class="container" *ngIf="placeFirst">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                
+                <div class="item" *ngFor="let eName of placeNameList;let i = index"  (click)="selectCall(eName)" >
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#{{i}}">{{eName}}</a>
+                        </h4>
+                    </div>
+                    
+                    <div id="{{i}}" class="panel-collapse collapse">
+                        <div class="panel-body" >
+                            <div class="row">
+                            <div class="name"  *ngFor="let eBook of bookNameList; let j = index" [attr.data-index]="j">
+                             
+                                <div class="col-sm-3">
+                                    <input [disabled]="true" type="text" class="form-control" name="1" 
+                                    [(ngModel)]="bookNameList[j]" placeholder="Book Name">
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <input [disabled]="false" type="number" class="form-control" name="1" 
+                                        [(ngModel)]="bookNameList[j]" placeholder="Count">
+                                </div> 
+                             </div>           
+                            </div>
+                        </div>
+                    </div>
+
+                  </div> <!-- ngfor -->
+                
+                </div>
+            </div>
+    </div>
+
+
+
+
+<div class="container" *ngIf="bookFirst">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                
+                <div class="item" *ngFor="let eBook of bookNameList;let k = index"  (click)="selectCall(eName)" >
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#{{k}}">{{eBook}}</a>
+                        </h4>
+                    </div>
+                    
+                    <div id="{{k}}" class="panel-collapse collapse">
+                        <div class="panel-body" >
+                            <div class="row">
+                            <div class="name"   *ngFor="let eName of placeNameList; let m = index" [attr.data-index]="m">
+                             
+                                <div class="col-sm-3">
+                                    <input [disabled]="true" type="text" class="form-control" name="1" 
+                                    [(ngModel)]="placeNameList[m]" placeholder="Place Name">
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <input [disabled]="false" type="number" class="form-control" name="1" 
+                                        [(ngModel)]="placeNameList[m]" placeholder="Count">
+                                </div> 
+                             </div>           
+                            </div>
+                        </div>
+                    </div>
+
+                  </div> <!-- ngfor -->
+                
+                </div>
+            </div>
+    </div>
+
+
+
+<div class="container" *ngIf="addStock">
+            <h3> Add New Stock - Came from printing</h3>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                
+                <div class="item" *ngFor="let eName of placeNameList;let i = index"  (click)="selectCall(eName)" >
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#{{i}}">{{eName}}</a>
+                        </h4>
+                    </div>
+                    
+                    <div id="{{i}}" class="panel-collapse collapse">
+                        <div class="panel-body" >
+                            <div class="row">
+                            <div class="name"  *ngFor="let eBook of bookNameList; let j = index" [attr.data-index]="j">
+                             
+                                <div class="col-sm-3">
+                                    <input [disabled]="true" type="text" class="form-control" name="1" 
+                                    [(ngModel)]="bookNameList[j]" placeholder="Book Name">
+                                 </div>
+                                 <div class="col-sm-3">
+                                    <input [disabled]="false" type="number" class="form-control" name="1" 
+                                        [(ngModel)]="bookNameList[j]" placeholder="Count">
+                                </div> 
+                             </div>           
+                            </div>
+                        </div>
+                    </div>
+
+                  </div> <!-- ngfor -->
+                
+                </div>
+            </div>
+    </div>
+
+
+
+   <!--ul class="list-group" *ngFor="let eBook of bookNameList; let i = index" [attr.data-index]="i" (click)="selectCall(eBook)">
+                                    
+                                    <li class="list-group-item">{{eBook}} <input type="number"> </li>
+                                    
+                                </ul -->

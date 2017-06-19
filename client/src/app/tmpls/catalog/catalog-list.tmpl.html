@@ -1,0 +1,14 @@
+<section class="panel panel-default panel-body row">
+    <div class="col-md-5">
+        <div class="items-row">
+            <div class="item" *ngFor="let P of Products" (click)="select(P)">
+            <img src="images/{{P.Category}}/{{P.Image}}" alt="">
+            <p> Name{{P.Name}} </p> <br>
+            <p> Rs {{P.Price}} </p>
+            </div>
+        </div>
+     </div>
+    <div class="col-md-5" >
+        <catalog-details [ofProduct]="SelectedOne"></catalog-details>
+    </div>
+</section>           

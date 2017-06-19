@@ -1,0 +1,73 @@
+
+
+<p> 
+    Thanga Jothi Gnana Sabai Trust established by the great Siddha - greatest guru Gnana Sarguru 
+    Siva Selvaraj Ayya Kannyakumari. 
+
+    This page is used to maintain the details of the members who obtained Thiruvadi Deeksa. Its used
+    to maintain the expenses income of the trust. Also tracks activities in the trust. This page 
+    has features to send sms/email to the anbars/disciples of the trust. 
+
+</p>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+</style>
+</head>
+<body>
+
+
+<h3>Write your feedback </h3>
+
+<div class="container">
+    
+  <form action="/action_page.php"> 
+    <!-- name should be already in database --> 
+    <label for="fname">First Name</label>
+    <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+    <label for="lname">Mobile</label>
+    <input type="text" id="mobile" name="lastname" placeholder="Your last name..">
+
+
+    <label for="subject">Feedback</label>
+    <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+</html>

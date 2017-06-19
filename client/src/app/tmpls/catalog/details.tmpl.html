@@ -1,0 +1,16 @@
+<article class="panel panel-danger" *ngIf="Product">
+    <button class="btn btn-primary pull-right">Edit </button>
+    <div class="panel-body row">
+        <img src="images/{{Product.Category}}/{{Product.Image}}" alt="" 
+            class="thumbnail col-md-4 col-sm-5 col-lg-3" height="350">
+        <div class="col-md-7 col-sm-7 col-lg-6">
+            <h4>{{Product.Name}}</h4>
+            <blockquote>
+                <strong><span>{{Product.Rating}}</span></strong> <br>
+                <strong><span>{{Product.Price | currency}}</span></strong>
+                {{Product.Description}}
+            </blockquote>
+        </div>
+    </div>
+</article>
+<h5 *ngIf="!Product">Select Product to view Details...</h5> 

@@ -1,0 +1,35 @@
+
+<div>
+    <p-dataTable [value]="Anbar" selectionMode="single" [(selection)]="AnbarList" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10" [responsive]="true">
+        <header>Anbar Management Service</header>
+        <p-column field="name" header="name" [sortable]="true"></p-column>
+        <p-column field="Mobile" header="empId" [sortable]="true"></p-column>
+        <p-column field="city" header="city" [sortable]="true"></p-column>
+        <footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button></div></footer>
+    </p-dataTable>
+
+        <div class="item" *ngFor="let eAnbar of AnbarList">
+
+    <p-dialog header="Anbar Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad" *ngIf="eAnbar">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="name">name</label></div>
+                <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="eAnbar.userName" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="empId">empId</label></div>
+                <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="eAnbar.initThru" /></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="city">city</label></div>
+                <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="eAnbar.address" /></div>
+            </div>
+        </div>
+		<footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+                <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            </div>
+        </footer>
+    </p-dialog>
+</div>

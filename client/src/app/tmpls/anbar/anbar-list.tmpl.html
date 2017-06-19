@@ -1,0 +1,226 @@
+
+<!--section class="panel panel-default panel-body row"-->
+
+
+<form (ngSubmit)="getAnbarsByPage()">
+
+  <div *ngIf="failed" class="alert alert-danger">
+                    <strong> Invalid credentials, please retry! </strong>
+  </div>
+
+  <div class="panel panel-default filterby">  
+      <table>
+          <th> <input type="text" placeholder="Anbar Name" required name="uname" class="form-control"  > </th> 
+          <th>
+            <select class="form-control" >
+              <option value="SA">Initated By Guru</option>
+              <option value="SA">GURU Ayya</option>
+              <option value="SA">Siva Aravind</option>
+              <option value="SV">Siva Vimal</option>
+              <option value="SK">Siva Krishnamurthi</option>
+              <option value="SK">Siva Yuvaraj</option>
+              <option value="SB">Siva Babu</option>
+              <option value="SVI">Siva Vijayan</option>
+              <option value="SS">Siva Sarvanan</option>
+              <option value="SBA">Siva Balu</option>
+              <option value="SSJ">Siva Suyam Jothi </option>
+            </select>
+          </th>
+          <th> <input type="text" placeholder="City" required name="uname" class="form-control"  ></th> 
+          <th> <input type="text" placeholder="District" required name="Dist"class="form-control"  ></th> 
+          <th> <input type="text" placeholder="State" required name="state" class="form-control" ></th> 
+          
+          <th> <button class="btn btn-primary pull-right " type="submit">List</button></th>
+          <!-- th> <input type="text" placeholder="pageNo" required name="pageNo"  [(ngModel)]="currentPageNo"></th --> 
+          
+      </table>       
+  </div>
+  
+  <div *ngIf="anbarListCount" class="container"> 
+     <div class="panel panel-default">
+     <div class="panel-heading">Member of Thanga Jothi Gnana Sabai Trust</div>
+     <table  class="table">
+        <div class="item" *ngFor="let eAnbar of AnbarList;let i = index"  (click)="selectCall(eAnbar)">
+            <tr >
+                    <td  >{{eAnbar.userName}}</td>
+                    <td  >{{eAnbar.initThru}}</td>
+                    <td  >{{eAnbar.city}}</td>
+                    <td  >{{eAnbar.dist}}</td>
+                    <td  >{{eAnbar.state}}</td>
+                    <!-- td>  <input type="radio" name="anbarR" [value]="i" (change) ="onSelection(eAnbar)">  </td -->             
+            </tr>
+        </div>
+    </table>
+ 
+  <div class="btn-group">
+        <a class="btn btn-info" role="button" (click)="addNewAnbar()" > Add New  </a>
+        <a class="btn btn-info" role="button"(click)="modifyAnbar()" > Modify   </a>
+        <a class="btn btn-info" role="button" (click)="copyNewAnbar()"> Copy    </a>
+        <a class="btn btn-info" role="button"(click)="deleteAnbar()">  Delete  </a>
+  </div>
+  
+    
+  <div class="pagination">
+        <div class="btn-group">
+            <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
+            <div class="item" *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)">  
+                <a class="btn btn-info" role="button" >{{page}}</a>
+            </div>
+            <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
+            </div>
+  </div>
+   </div>  
+<!--/section -->
+  <!--div id="myModal" class="modal" -->
+      <div *ngIf="showDetail == 1">
+
+    <div class="row">
+         <div class="col-sm-6">
+            <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="un" 
+                [(ngModel)]="anbar.userName" placeholder="User Name">
+                <span class="input-group-addon" style="background-color:khaki; color:#000">Anbar Name</span>
+            </div>
+        </div>
+        <div class="col-sm-6" >
+            <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="pn" 
+                [(ngModel)]="anbar.phoneNo" placeholder="Mobile">
+                <span class="input-group-addon"style="background-color:khaki; color:#000">Phone No</span>
+            </div>
+        </div>
+    </div> 
+
+           
+    <div class="row">
+         <div class="col-sm-6">
+          <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="it" 
+                [(ngModel)]="anbar.initThru" placeholder="Deeksha Thru">
+                <span class="input-group-addon" style="background-color:khaki; color:#000">Initiated Through </span>
+            </div>        
+        </div>
+        <div class="col-sm-6" >
+              <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="em" 
+                [(ngModel)]="anbar.emailId" placeholder="MailId">
+                <span class="input-group-addon" style="background-color:khaki; color:#000">E-Mail Id</span>
+               </div>
+            </div>
+       </div>
+     
+       <div class="row">
+         <div class="col-sm-6">
+             <div class="input-group">
+                <textarea rows="3" cols="50" [disabled]="nonEdit"  id="desc"  class="form-control" name="ad" 
+                [(ngModel)]="anbar.address" placeholder="MailId"> </textarea>
+                <span class="input-group-addon" style="background-color:khaki; color:#000">Address </span>
+            </div>
+         </div>
+          <div class="col-sm-6">
+             <div class="input-group">
+                <textarea rows="3" cols="50"[disabled]="nonEdit"  id="desc"  class="form-control" name="ne" 
+                [(ngModel)]="anbar.locality" placeholder="MailId"></textarea>
+                <span class="input-group-addon" style="background-color:khaki; color:#000">Locality-Landmark </span>
+            </div>
+          </div>
+       </div>
+
+        <div class="row">
+         <div class="col-sm-6">
+            <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="ci" 
+                [(ngModel)]="anbar.city" placeholder="MailId">
+                <span class="input-group-addon" style="background-color:khaki; color:#000">City </span>
+            </div>
+        </div>
+        <div class="col-sm-6" >
+               <div class="input-group">
+                    <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="dt" 
+                    [(ngModel)]="anbar.dist" placeholder="District">
+                    <span class="input-group-addon" style="background-color:khaki; color:#000">District </span>
+               </div>
+            </div>
+       </div>
+     
+    
+        <div class="row">
+         <div class="col-sm-6">
+               <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="at" 
+                [(ngModel)]="anbar.state" placeholder="state">
+                <span class="input-group-addon"style="background-color:khaki; color:#000">State </span>
+            </div>
+     
+        </div>
+        <div class="col-sm-6" >
+            <div class="input-group">
+                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="co" 
+                [(ngModel)]="anbar.country" placeholder="country">
+                <span class="input-group-addon" style="background-color:khaki; color:#000">Country </span>
+            </div>
+            </div>
+       </div>
+        
+        <div class="btn-group">
+                <a class="btn btn-info" role="button"(click)="saveButtonClicked()">  Save  </a>
+                  <a class="btn btn-info" role="button"(click)="cancelButtonClicked()">  Cancel  </a>  
+            </div>
+    </div>        
+   
+    <!--/div -->   
+  </div>
+</form>     
+
+<style>
+
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: yellow;
+}
+</style>

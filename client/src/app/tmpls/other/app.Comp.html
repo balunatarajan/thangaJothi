@@ -1,0 +1,60 @@
+
+
+<style>
+li a:hover {
+  background-color: yellow;
+  color:darkblue;
+}
+</style>
+
+<div class="navbar navbar-inverse navbar-static-top nabar-fixed-top">
+<div class="container">
+    <a href="http://www.vallalyaar.com" class="navbar-brand"> THANGAJOTHI </a>
+    <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+      <span class="icon-bar" ></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      
+    </button>
+    <div *ngIf="userLoggedIn == 0; else elseBlock">
+          <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a  routerLink="/ranbarList">Anbar </a></li>
+            <li><a  routerLink="/rTranList">Transaction </a> </li>
+            <li><a  routerLink="/rTranCode">Tran Code </a></li>
+            <li><a  routerLink="/rBookList">Books </a></li>
+            <li><a  routerLink="/rcontactUs">Report </a></li>
+            
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+               Others <span class="caret"> </span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li><a  routerLink="/rcontactUs">Send Mail </a></li>
+                  <li><a  routerLink="/rcontactUs">Send SMS </a></li>
+                   <li><a  routerLink="/rcontactUs">Send Message </a></li>
+                   <li role="separator" class="divider"></li>
+                   <li><a  routerLink="/rcontactUs">Raise Request </a></li>
+                   <li><a  routerLink="/rcontactUs">Approve Request </a></li>
+              </ul>
+            </li>
+            <li><a  routerLink="/rcontactUs">Logout </a></li>
+
+         </ul>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+        <ul class="nav navbar-nav navbar-right" >
+            <li class="active"><a href="#">Anbar</a></li>
+            <li><a  routerLink="/rsignIn"> <span class="glyphicon glyphicon-user"></span> SignIn </a></li>
+            <li><a  routerLink="/rlogIn"><span class="glyphicon glyphicon-log-in"></span> Login</a> </li>
+            
+          </ul>
+    </ng-template>  
+</div>  
+</div>  
+
+
+<router-outlet></router-outlet>
+ 

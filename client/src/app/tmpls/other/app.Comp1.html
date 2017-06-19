@@ -1,0 +1,84 @@
+<!-- div class="container-fluid" -->
+  
+<!-- nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+       <ul>
+        <li><a  routerLink="/ranbarList">Thanga Jothi Gnana Sabai </a></li>
+        <li><a  routerLink="/ranbarList">www.vallalyaar.com </a></li>
+       </ul>  
+    </div -->
+<style>
+* { box-sizing:border-box }
+  
+body {margin: 0;}
+
+nav {
+  position:relative//:fixed;
+  //display: flex;
+	width: 100%;
+	float: left;
+  margin: 40 0 1em 0;
+	padding: 0;
+	background-color:darkblue;
+	border-bottom: 1px solid #ccc;  
+  top:0px;
+  left:0px;
+  
+}
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style:none;
+}
+
+ li {
+    float: left;
+    font:bold;
+    font-size: 15px;
+    font-family:cursive;
+    width: 10%;
+}
+
+ li a {
+    display: block;
+    padding: 25px;
+    background-color:darkblue;
+    color: yellow;  
+    text-decoration:none;
+    text-align: left;
+}
+
+li a:hover {
+  background-color: yellow;
+  color:darkblue;
+}
+</style>
+
+<nav>
+    <div *ngIf="userLoggedIn == 0; else elseBlock">
+          <ul >
+            <!-- li class="active"><a href="#">Home</a></li     class="nav navbar-nav"-->
+            <li><a  routerLink="/ranbarList">Anbar </a></li>
+            <li><a  routerLink="/rTranList">Transaction </a> </li>
+            <li><a  routerLink="/rTranCode">Tran Code </a></li>
+            <li><a  routerLink="/rcontactUs">Books </a></li>
+            <li><a  routerLink="/rcontactUs">Report </a></li>
+            <li><a  routerLink="/rcontactUs">Send Mail </a></li>
+            <li><a  routerLink="/rcontactUs">Send SMS </a></li>
+            </ul>
+    </div>
+    <ng-template #elseBlock>
+        <ul>
+            <li class="active"><a href="#">Anbar</a></li>
+            <li><a  routerLink="/rsignIn">Transaction </a></li>
+            <li><a  routerLink="/rlogIn">Report</a> </li>
+            <li><a  routerLink="/rcontactUs">Contact Us </a></li>
+          </ul>
+    </ng-template>  
+  
+</nav>  
+
+  <router-outlet></router-outlet>
+ 

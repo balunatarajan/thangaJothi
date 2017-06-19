@@ -1,0 +1,25 @@
+<h2> Add anbar page</h2>
+
+<form (ngSubmit)="addAnbar()">
+
+        <div *ngIf="failed" class="alert alert-danger">
+                <strong> Invalid credentials, please retry! </strong>
+        </div>
+ 
+ <div class="container">
+        Name: <input type="text"  name="fname" [(ngModel)]="anbar.userName"><br>
+        Phone No: <input type="text"  value="900887" name="phone" [(ngModel)]="anbar.phoneNo"><br>
+        EmailId: <input type="text"  value="John@x.com "name="mail" [(ngModel)]="anbar.emailId"><br>
+        Address: <input type="text" name="addr" [(ngModel)]="anbar.address"><br>
+        Locality: <input type="text" name="locality"  [(ngModel)]="anbar.locality"><br>
+        City: <input type="text" name="city"  [(ngModel)]="anbar.city"><br>
+        Initiated By: <input type="initThru" name="lname"  [(ngModel)]="anbar.initThru"><br>
+        Dist: <input type="text" name="dist" [(ngModel)]="anbar.dist"><br>
+        State: <input type="text" name="state" [(ngModel)]="anbar.state"><br>
+        Country: <input type="text" name="cont" [(ngModel)]="anbar.country"><br>
+         <button type="submit">Login</button>
+  </div>
+  Result:
+  {{getData}}
+
+</form>

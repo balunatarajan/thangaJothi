@@ -1,0 +1,14 @@
+
+/* mouse over link */
+/*rowL:hover {
+    color: red;
+    background-color: yellow;
+}*/
+tr:hover {
+    background: grey;
+    color: blue;
+}    
+
+table, th, td {
+   border: 2px solid black;
+ }
