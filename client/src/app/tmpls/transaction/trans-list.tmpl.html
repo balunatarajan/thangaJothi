@@ -1,91 +1,8 @@
 
 <!--section class="panel panel-default panel-body row"-->
 <style>
-table, td, th {
-    border: 0px solid black;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th {
-    text-align: left;
-}
-.pagination {
-    display: inline-block;
-}
-
-.pagination a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-}
-desc {
-    background-color: yellow;
-}
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: yellow;
-}
-
-.pagination a.active {
-    background-color: #4CAF50;
-    color: white;
-    border: 1px solid #4CAF50;
-}
-
-.pagination a:hover:not(.active) {background-color: #ddd;}
-
-.pagination a:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.pagination a:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
-
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 </style>
@@ -97,11 +14,11 @@ desc {
                     <strong> Invalid credentials, please retry! </strong>
   </div>
   <div>
-      <table>
+      <table class="table table-striped">
        <th>
          
            </th>         
-          <th> <input type="text" placeholder="Transaction Date" required name="uname"  class="form-control"></th> 
+          <th> <input type="date" placeholder="Transaction Date" required name="uname"  class="form-control"></th> 
           <th> <input type="text" placeholder="Description" required name="Dist"  class="form-control"></th> 
           <th> <input type="text" placeholder="Header Code" required name="Dist"  class="form-control"></th> 
           
@@ -112,18 +29,26 @@ desc {
   <div *ngIf="transListCount"> 
   <div class="panel panel-default">
         <div class="panel-heading" style="background-color:yellow"> Income-Expenses of Thanga Jothi Gnana Sabai Trust</div>
-        <table class="table  table-striped">
-            <th>Date</th> <th>Description</th> <th>Amount</th> <th>Income-Expense</th> 
-            <div class="item" *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">
-                
-                <tr>
+        
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>From Date </th>
+            <th>To   Date </th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Income-Expense</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+                <tr class="item" *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">>
                     <td>  {{trans.transDate}}  </td>
                     <td>  {{trans.description}}  </td>
                     <td>  {{trans.amount}}      </td>
                     <td>  {{trans.headerCode}}      </td>
-                    <!-- td>  <input type="radio" name="transR" [value]="i" (change) ="onSelection(trans)">  </td -->             
                 </tr>
-            </div>
+         <tbody>
         </table>
   </div>
   
@@ -134,15 +59,12 @@ desc {
     <a class="btn btn-info" role="button"(click)="deleteTransaction()">  Delete  </a>
   </div>
  
-  <div class="pagination">
-      <div class="btn-group">
-            <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
-            <div class="item" *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)">  
-                 <a class="btn btn-info" role="button" >{{page}}</a>
-            </div>
-            <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
-        </div>
-   </div>
+  <div class="pagination pagination-sm">
+        <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
+        <a  *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)" 
+         class="btn btn-info" role="button" >{{page}}</a>
+        <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
+  </div>  
   
 
 <!--/section -->
@@ -150,7 +72,7 @@ desc {
    <div *ngIf="showDetail == 1"> 
            
            <div class="input-group">
-            <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="td" 
+            <input [disabled]="nonEdit"  id="desc" type="date" class="form-control" name="td" 
                 [(ngModel)]="trans.transDate" placeholder="Transcation Date">
                 <span class="input-group-addon bg-primary" style="background-color:yellow">Transcation Date       </span>
             </div>

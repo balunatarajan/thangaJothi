@@ -8,72 +8,121 @@
                     <strong> Invalid credentials, please retry! </strong>
   </div>
 
-  <div class="panel panel-default filterby">  
-      <table>
-          <th> <input type="text" placeholder="Anbar Name" required name="uname" class="form-control"  > </th> 
-          <th>
-            <select class="form-control" >
-              <option value="SA">Initated By Guru</option>
-              <option value="SA">GURU Ayya</option>
-              <option value="SA">Siva Aravind</option>
-              <option value="SV">Siva Vimal</option>
-              <option value="SK">Siva Krishnamurthi</option>
-              <option value="SK">Siva Yuvaraj</option>
-              <option value="SB">Siva Babu</option>
-              <option value="SVI">Siva Vijayan</option>
-              <option value="SS">Siva Sarvanan</option>
-              <option value="SBA">Siva Balu</option>
-              <option value="SSJ">Siva Suyam Jothi </option>
-            </select>
-          </th>
-          <th> <input type="text" placeholder="City" required name="uname" class="form-control"  ></th> 
-          <th> <input type="text" placeholder="District" required name="Dist"class="form-control"  ></th> 
-          <th> <input type="text" placeholder="State" required name="state" class="form-control" ></th> 
-          
-          <th> <button class="btn btn-primary pull-right " type="submit">List</button></th>
-          <!-- th> <input type="text" placeholder="pageNo" required name="pageNo"  [(ngModel)]="currentPageNo"></th --> 
-          
-      </table>       
-  </div>
-  
-  <div *ngIf="anbarListCount" class="container"> 
-     <div class="panel panel-default">
-     <div class="panel-heading">Member of Thanga Jothi Gnana Sabai Trust</div>
-     <table  class="table">
-        <div class="item" *ngFor="let eAnbar of AnbarList;let i = index"  (click)="selectCall(eAnbar)">
-            <tr >
-                    <td  >{{eAnbar.userName}}</td>
-                    <td  >{{eAnbar.initThru}}</td>
-                    <td  >{{eAnbar.city}}</td>
-                    <td  >{{eAnbar.dist}}</td>
-                    <td  >{{eAnbar.state}}</td>
-                    <!-- td>  <input type="radio" name="anbarR" [value]="i" (change) ="onSelection(eAnbar)">  </td -->             
-            </tr>
-        </div>
-    </table>
+  <div class="row">  <!--class="row panel panel-default filterby" -->  
+     <!--div class="panel-heading">Filter Members </div -->
+
+        
+         <div class="col-sm-3">
+         <div class="input-group">
+          <a id="search_button" type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#guruListModal">
+               <span class="glyphicon glyphicon-search"></span>  Search
+             </a><input  id="main_search_input" type="text" id="focusedInput" [(ngModel)]="filter_guru" placeholder="Guru" 
+              required name="Gname" class="form-control"  >  
+         </div>
+         </div>
+
+             <div class="col-sm-3">
+            <div class="input-group">
+            <input type="text"   [(ngModel)]="filter_name" placeholder="Anbar Name" 
+            required name="Aname" class="form-control"  > 
+            </div> </div>
+         
+         <div class="col-sm-3">
+         <div class="input-group">
+            <input type="text" [(ngModel)]="filter_city" placeholder="City" 
+            required name="Cname" class="form-control"  >
+            </div> </div>
+         <div class="col-sm-3">
+         <div class="input-group">
  
-  <div class="btn-group">
+           <input type="text" [(ngModel)]="filter_dist"placeholder="District" required name="Dist"class="form-control"  >
+            </div> </div>
+         <div class="col-sm-3">
+         <div class="input-group">
+           <input type="text" placeholder="State" [(ngModel)]="filter_state" required name="state" class="form-control" >
+            </div> </div>
+         <div class="col-sm-3">
+             <div class="input-group">
+             <button class="btn btn-info" type="submit">List Member</button>
+          <!-- th> <input type="text" placeholder="pageNo" required name="pageNo"  [(ngModel)]="currentPageNo"></th --> 
+            </div> </div> 
+  </div>
+  <hr>
+ <div *ngIf="anbarListCount"> 
+ <div class="panel panel-default">
+ <div class="panel-heading">Member of Thanga Jothi Gnana Sabai Trust</div>
+      
+  <table class="table table-striped">
+   <thead>
+      <tr>
+        <th>User Name</th>
+        <th>Init Thru</th>
+        <th>City</th>
+        <th>Dist</th>
+        <th>State</th>
+        <th>Guru is God</th>
+      </tr>
+    </thead>
+    <tbody>
+       <tr  *ngFor="let eAnbar of AnbarList;let i = index"  (click)="selectCall(eAnbar)">
+          <td>{{eAnbar.userName}}</td>
+          <td>{{eAnbar.initThru}}</td>
+          <td>{{eAnbar.city}}</td>
+          <td>{{eAnbar.dist}}</td>
+          <td>{{eAnbar.state}}</td>
+          <td>  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open</button> </td>
+
+        </tr>
+    </tbody>
+    </table>
+
+
+  <!-- div class="btn-group">
         <a class="btn btn-info" role="button" (click)="addNewAnbar()" > Add New  </a>
         <a class="btn btn-info" role="button"(click)="modifyAnbar()" > Modify   </a>
         <a class="btn btn-info" role="button" (click)="copyNewAnbar()"> Copy    </a>
         <a class="btn btn-info" role="button"(click)="deleteAnbar()">  Delete  </a>
-  </div>
-  
-    
-  <div class="pagination">
+  </div-->
+
+  <div *ngIf="anbarListCount" class="pagination pagination-sm">
+        <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
+        <a  *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)" 
+         class="btn btn-info" role="button" >{{page}}</a>
+        <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
+  </div>  
+  <!-- div class="pagination">
         <div class="btn-group">
             <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
             <div class="item" *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)">  
                 <a class="btn btn-info" role="button" >{{page}}</a>
             </div>
             <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
-            </div>
-  </div>
+        </div>
+  </div-->
    </div>  
 <!--/section -->
   <!--div id="myModal" class="modal" -->
-      <div *ngIf="showDetail == 1">
 
+
+<div *ngIf="showDetail == 1">
+
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Anbar Details</h4>
+        </div>
+  
+        <div class="modal-body">
+    <!-- Modal -->
+  
+
+  
     <div class="row">
          <div class="col-sm-6">
             <div class="input-group">
@@ -95,8 +144,23 @@
     <div class="row">
          <div class="col-sm-6">
           <div class="input-group">
-                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="it" 
-                [(ngModel)]="anbar.initThru" placeholder="Deeksha Thru">
+
+
+   <input  [(ngModel)]="anbar.initThru" [disabled]="nonEdit" list="browsers" name="browser"  class="form-control">
+  <datalist id="browsers">
+     <option *ngFor="let nc of guruNames" [value]="nc.dataName"> {{nc.dataName}} </option>
+  </datalist>
+                <!--input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="it" 
+                [(ngModel)]="anbar.initThru" placeholder="Deeksha Thru" >
+                
+                <select  [disabled]="nonEdit"  class="form-control"  (change)="changed($event.target.value)" >
+                    
+                    <option *ngFor="let nc of guruNames" [value]="nc">
+                    {{nc}}
+                    </option>
+                </select -->
+            
+                
                 <span class="input-group-addon" style="background-color:khaki; color:#000">Initiated Through </span>
             </div>        
         </div>
@@ -163,64 +227,69 @@
        </div>
         
         <div class="btn-group">
-                <a class="btn btn-info" role="button"(click)="saveButtonClicked()">  Save  </a>
-                  <a class="btn btn-info" role="button"(click)="cancelButtonClicked()">  Cancel  </a>  
-            </div>
+                <a class="btn btn-info" role="button"(click)="saveButtonClicked()" data-dismiss="modal">  Save  </a>
+                  <a class="btn btn-info" role="button"(click)="cancelButtonClicked()" data-dismiss="modal">  Cancel  </a>  
+        </div>
+    <!-- modal-->
+        </div>
+  
+
+  
+  <div class="btn-group">
+        <a class="btn btn-info" role="button" (click)="addNewAnbar()" > Add New  </a>
+        <a class="btn btn-info" role="button"(click)="modifyAnbar()" > Modify   </a>
+        <a class="btn btn-info" role="button" (click)="copyNewAnbar()"> Copy    </a>
+        <a class="btn btn-info" role="button"(click)="deleteAnbar()">  Delete  </a>
+  </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+      
+    </div>
+  </div>
+    <!-- modal-->
+    
     </div>        
    
-    <!--/div -->   
   </div>
 </form>     
 
+<!-- start of  Guru modal -->
+ <div class="modal fade" id="guruListModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <!-- Modal content-->
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Guru </h4>
+        </div>
+  
+        <div class="modal-body">
+            <ng-container *ngFor="let nc of guruNames; let i = index" >
+                <button class="btn form-control btn-warning btn-rounded" 
+                    [value]="nc.dataName"  (click)="selectG(nc.dataName)" data-dismiss="modal">
+                    {{nc.dataName}}
+                </button>
+            </ng-container>
+
+        </div>
+            
+        <div class="modal-footer">
+           <button type="button" class="flat-butt flat-outer-butt" data-dismiss="modal">Close</button>
+         </div>
+     
+      </div>
+      
+    </div>
+  </div>
+  <!-- end of modal -->
+
 <style>
-
-
-.pagination {
-    display: inline-block;
-}
-
-.pagination a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-}
-
-.pagination a.active {
-    background-color: #4CAF50;
-    color: white;
-    border: 1px solid #4CAF50;
-}
-
-.pagination a:hover:not(.active) {background-color: #ddd;}
-
-.pagination a:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.pagination a:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-.table tbody tr:hover td, .table tbody tr:hover th {
+    .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: yellow;
-}
+    }
 </style>

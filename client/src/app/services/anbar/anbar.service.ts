@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AnbarInfo} from '../../comps/anbar/anbar-info';
+import {AnbarSearch} from '../../comps/anbar/anbarSearch';
 import {Count} from '../../comps/other/Count';
 import {Http,Response,RequestOptions,RequestMethod,Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import {MasterDataC} from '../../comps/other/masterData';
 import 'rxjs/add/operator/map';
 //import 'rxjx/add/operator/catch';
 
@@ -14,12 +16,15 @@ private serverIp:string ='blrlw4258';
 private serverPort:string='4040';
 private url : string = 'http://'+this.serverIp+':'+this.serverPort;
 
-private getAnbarUrl: string = this.url+ '/tjgs/anbar/all';
-private getAnbarByPageUrl: string = this.url+ '/tjgs/anbar/allbypage';
+private getAnbarUrl: string = this.url+ '/rest/tjgs/anbar/all';
+private getAnbarCityUrl: string = this.url+ '/rest/tjgs/anbar/namecityall';
+private getAnbarByPageUrl: string = this.url+ '/rest/tjgs/anbar/allbypage';
+private getGuruAllUrl: string = this.url+ '/rest/tjgs/guru/all';
+private postAddAnbarUrl: string = this.url+ '/rest/tjgs/anbar/add';
+private putAddAnbarUrl: string = this.url+ '/rest/tjgs/anbar/modify';
+private getCountUrl: string = this.url+'/rest/tjgs/getCount'; 
+private getAnbarByCrit: string = this.url+'/rest/tjgs/anbar/filterby'; 
 
-private postAddAnbarUrl: string = this.url+ '/tjgs/anbar/add';
-private putAddAnbarUrl: string = this.url+ '/tjgs/anbar/modify';
-private getCountUrl: string = this.url+'/tjgs/getCount'; 
 constructor(private http : Http){}
 
 public  getAnbarCountInDb() :Observable<Count> {
@@ -87,8 +92,41 @@ logError(err: any) {
 
 
 public getAnbarsByPage(pageSize : number,pageNo : number) :Observable<AnbarInfo[]> {
+        // headers.append('Access-Control-Allow-Origin','*');
+
+         var headers = new Headers ({ 'Content-Type': 'application/json','Accept':'application/json' });
+         let options = new RequestOptions({ headers: headers });
+           
         console.log('URL ' + this.getAnbarByPageUrl+'?page='+pageNo+'&size='+pageSize);
         return this.http.get(this.getAnbarByPageUrl+'?page='+pageNo+'&size='+pageSize)
+                    .map(this.extractAnbars);
+}
+
+
+public getAllAnbarByCriteria(anbarSearch: AnbarSearch) :Observable<AnbarInfo[]> {
+        var search = JSON.stringify(anbarSearch);
+        var url = this.getAnbarByCrit+'?nameLike='+ anbarSearch.nameLike 
+                                        +'&initLike='+ anbarSearch.initLike 
+                                        +'&cityLike='+ anbarSearch.cityLike 
+                                        +'&distLike='+anbarSearch.distLike
+                                        +'&stateLike='+anbarSearch.stateLike;
+        console.log('search ' + url);
+        
+        return this.http.get(url)
+                    .map(this.extractAnbars);
+}
+
+public getAllAnbarCityByPage() :Observable<string[]> {
+        console.log('URL ' + this.getAnbarCityUrl);
+        return this.http.get(this.getAnbarCityUrl)
+                    .map(this.extractAnbars);
+}
+
+//sort=name,asc&sort=numberOfHands,desc
+//sort=<field>,asc&sort=<field>,desc
+public getAllGuruNames() :Observable<MasterDataC[]> {
+        console.log('URL ' + this.getGuruAllUrl);
+        return this.http.get(this.getGuruAllUrl)
                     .map(this.extractAnbars);
 }
 

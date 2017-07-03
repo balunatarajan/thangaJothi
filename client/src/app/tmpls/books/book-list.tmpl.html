@@ -2,7 +2,6 @@
 
 
   <div class="btn-group">
-      
         <button type="button" class="btn btn-primary">Select one option</button>
         <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
             <span class="caret"></span></button>
@@ -21,8 +20,6 @@
             <li class="list-group-item"><a href="#">Handover to Another Anbar</a></li>
         </ul>
     </div>
-   <hr>
-
 
     <div class="container" *ngIf="placeFirst">
             <div class="panel-group">
@@ -38,11 +35,11 @@
                     <div id="{{i}}" class="panel-collapse collapse">
                         <div class="panel-body" >
                             <div class="row">
-                            <div class="name"  *ngFor="let eBook of bookNameList; let j = index" [attr.data-index]="j">
+                            <div class="name"  *ngFor="let eBook of bookListC; let j = index" [attr.data-index]="j">
                              
                                 <div class="col-sm-3">
                                     <input [disabled]="true" type="text" class="form-control" name="1" 
-                                    [(ngModel)]="bookNameList[j]" placeholder="Book Name">
+                                    [(ngModel)]="bookListC.dataName" placeholder="Book Name">
                                  </div>
                                  <div class="col-sm-3">
                                     <input [disabled]="false" type="number" class="form-control" name="1" 
@@ -60,37 +57,21 @@
     </div>
 
 
-
-
+<!-- BOOK FIRST PAGE -->
 <div class="container" *ngIf="bookFirst">
             <div class="panel-group">
-                <div class="panel panel-default">
-                
-                <div class="item" *ngFor="let eBook of bookNameList;let k = index"  (click)="selectCall(eName)" >
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#{{k}}">{{eBook}}</a>
+              <div class="panel panel-default">
+                <div class="item" *ngFor="let eBook of bookListC;let k = index"  (click)="selectCall(k)" >
+                    <div class="col-sm-1 panel-heading">
+                        <h4 class="panel-title">                            
+                            
+                            <a data-toggle="modal" href="#{{k}}" data-target="#bookDetailsModal">
+                            <img id="logo"  src="{{fullImagePath + eBook.imageName}}" 
+                            alt="Simpla Admin logo" height="100" width="62"/>                        
+                            <!--a data-toggle="collapse" href="#{{k}}" data-target="#guruListModal">Details</a-->
+                            </a>
                         </h4>
                     </div>
-                    
-                    <div id="{{k}}" class="panel-collapse collapse">
-                        <div class="panel-body" >
-                            <div class="row">
-                            <div class="name"   *ngFor="let eName of placeNameList; let m = index" [attr.data-index]="m">
-                             
-                                <div class="col-sm-3">
-                                    <input [disabled]="true" type="text" class="form-control" name="1" 
-                                    [(ngModel)]="placeNameList[m]" placeholder="Place Name">
-                                 </div>
-                                 <div class="col-sm-3">
-                                    <input [disabled]="false" type="number" class="form-control" name="1" 
-                                        [(ngModel)]="placeNameList[m]" placeholder="Count">
-                                </div> 
-                             </div>           
-                            </div>
-                        </div>
-                    </div>
-
                   </div> <!-- ngfor -->
                 
                 </div>
@@ -100,45 +81,126 @@
 
 
 <div class="container" *ngIf="addStock">
-            <h3> Add New Stock - Came from printing</h3>
-            <div class="panel-group">
-                <div class="panel panel-default">
-                
-                <div class="item" *ngFor="let eName of placeNameList;let i = index"  (click)="selectCall(eName)" >
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#{{i}}">{{eName}}</a>
-                        </h4>
-                    </div>
-                    
-                    <div id="{{i}}" class="panel-collapse collapse">
-                        <div class="panel-body" >
-                            <div class="row">
-                            <div class="name"  *ngFor="let eBook of bookNameList; let j = index" [attr.data-index]="j">
-                             
-                                <div class="col-sm-3">
-                                    <input [disabled]="true" type="text" class="form-control" name="1" 
-                                    [(ngModel)]="bookNameList[j]" placeholder="Book Name">
-                                 </div>
-                                 <div class="col-sm-3">
-                                    <input [disabled]="false" type="number" class="form-control" name="1" 
-                                        [(ngModel)]="bookNameList[j]" placeholder="Count">
-                                </div> 
-                             </div>           
-                            </div>
+    <h3> Add New Stock</h3>
+ 
+    <form action="/action_page.php">
+        <div class="row">
+            <div class="col-sm-6">
+                 <div class="form-group">
+                       <label for="Owner">Owner:</label>
+                        <input type="text" class="form-control" id="Owner" placeholder="Owner" name="Owner">  
+                  </div>
+            </div>     
+             <div class="col-sm-6">
+                        <div class="form-group">
+                             <label for="locn">Location:</label>
+                            <input type="text" class="form-control" id="locn" placeholder="Location" name="locn">
                         </div>
-                    </div>
-
-                  </div> <!-- ngfor -->
-                
-                </div>
+            </div>     
+             <div class="col-sm-6">
+                 <a data-toggle="modal" href="#{{k}}" data-target="#bookDetailsModal">
+                 <!-- button id="Fbook" placeholder="book" name="fBook"> Search </button-->
+                        <div class="form-group">
+                             <label for="Book">Book:</label>
+                            <input  [(ngModel)]="selectedBookTitle" type="text" class="form-control" id="Book" placeholder="Book" name="Book">
+                        </div>
+                 </a>      
+                        
+            </div>     
+             <div class="col-sm-6">
+                        <div class="form-group">
+                             <label for="Qty">Qty:</label>
+                            <input type="number" class="form-control" id="Qty" placeholder="Quantity" name="Qty">
+                        </div>
+                        
+            </div>     
+             <div class="col-sm-6">
+                        <button type="submit" class="btn btn-default">Add </button>
+                       <button type="submit" class="btn btn-default">Submit</button>
+                       <button type="submit" class="btn btn-default">Clear</button>
+             </div>
             </div>
+                    </form>
     </div>
 
 
+<!-- start of  Book Detail modal -->
+ <div class="modal fade" id="bookDetailsModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <!-- Modal content-->
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Book Count</h4>
+        </div>
+        <!-- In one page it lists page name. In anothe page its list picture in modal -->
+        <div class="modal-body" *ngIf="addStock">
+            <ng-container *ngFor="let nc of bookListC; let i = index"  (click)="selectedBookIndex(i)">
+                <a  (click)="selectedBookIndex(i)"  data-dismiss="modal">
+                 <img id="logo"  src="{{fullImagePath + nc.imageName}}" 
+                            alt="Simpla Admin logo" height="80" width="49"/>                        
+                </a>
+            </ng-container>
+        </div>
 
-   <!--ul class="list-group" *ngFor="let eBook of bookNameList; let i = index" [attr.data-index]="i" (click)="selectCall(eBook)">
-                                    
-                                    <li class="list-group-item">{{eBook}} <input type="number"> </li>
-                                    
-                                </ul -->
+        <div class="modal-body" *ngIf="bookFirst">
+            <ng-container *ngFor="let nc of bookListC; let i = index" (click)="selectedBookIndex(i)">
+                <button class="btn form-control btn-warning btn-rounded" 
+                    [value]="nc.dataName"  (click)="selectG(nc.dataName)" data-dismiss="modal">
+                    {{nc.dataName}}
+                </button>
+            </ng-container>
+        </div>
+            
+        <div class="modal-footer">
+           <button type="button" class="flat-butt flat-outer-butt" data-dismiss="modal">Close</button>
+         </div>
+     
+      </div>
+      
+    </div>
+  </div>
+  <!-- end of modal -->
+
+
+
+<!-- start of  Book Detail modal -->
+ <div class="modal fade" id="selectAnbarModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <!-- Modal content-->
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Anbar</h4>
+        </div>
+
+        <div class="modal-body" *ngIf="bookFirst">
+
+                 <div class="form-group">
+                       <label for="Anbar">Search Anbar:</label>
+                        <input type="text" class="form-control" id="Owner" placeholder="Owner" name="Owner">  
+                        <input type="text" [(ngModel)]="mymodel" (input)="valuechange($event)"
+                        class="form-control" id="Owner" placeholder="Owner" name="Owner" />
+                  </div>
+           
+            <ng-container *ngFor="let nc of bookListC; let i = index" (click)="selectedBookIndex(i)">
+                <button class="btn form-control btn-warning btn-rounded" 
+                    [value]="nc.dataName"  (click)="selectG(nc.dataName)" data-dismiss="modal">
+                    {{nc.dataName}}
+                </button>
+            </ng-container>
+        </div>
+            
+        <div class="modal-footer">
+           <button type="button" class="flat-butt flat-outer-butt" data-dismiss="modal">Close</button>
+         </div>
+     
+      </div>
+      
+    </div>
+  </div>
+  <!-- end of modal -->
+
+

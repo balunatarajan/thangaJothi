@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import {AnbarInfo} from './anbar-info';
 import {Count} from './../other/Count';
-import {AnbarService} from '../../services/anbar/anbar.service'
+import {AnbarService} from '../../services/anbar/anbar.service';
+import {AnbarSearch} from './anbarSearch';
+import {MasterDataC} from './../other/masterData';
 
 @Component({
   selector: 'anbar-list',
@@ -26,11 +28,21 @@ export class AnbarList {
   nonEdit:boolean;
   mode:string;
   totalRecords:number;
-  pageList:Array<number> = new Array(4);
+  pageList:Array<number> = [];//new Array(4);
   // pageList:number[] = new Array(4)  
   totalPages : number;
   anbarCount : Count = new Count;
-  
+  nameCityList:Array<string> = [];
+  guruNames:Array<MasterDataC> = [];
+  title:string;
+  anbarSearch : AnbarSearch  = new AnbarSearch;
+  filter_name:string;
+  filter_guru:string;
+  filter_city:string;
+  filter_dist:string;
+  filter_state:string;
+  bFilter: boolean;
+
  constructor(private as:AnbarService) {
 
     this.showDetail = 0; 
@@ -42,11 +54,15 @@ export class AnbarList {
     this.anbarCount.count= "0";
     this.totalPages = this.totalRecords / this.pageSize; 
     this.populatePageArray();
+    this.title = "Select Guru";
+    this.bFilter = false;
   }
   
   ngOnInit(){
      this.getAnbarCountInDb();    //this.totalRecords = 59;
      this.totalPages = this.totalRecords / this.pageSize; 
+     this.getAllAnbarCity();
+     this.getAllGuruNames();
   }
   private populatePageArray() {
   
@@ -111,18 +127,82 @@ export class AnbarList {
     getAnbarsByPage(){
           //this.AnbarList=[];
           this.AnbarList.length = 0;
-          console.log('anbar.list.ts : getAnbars before service');
-          this.as.getAnbarsByPage(this.pageSize,this.currentPageNo).subscribe(
-          data => this.AnbarList = data,
-          err => console.log(err),
-          () =>this.anbarListCount = AnbarList.length
-          );
+          this.bFilter = false;
+          this.anbarSearch.cityLike = "*";
+          this.anbarSearch.distLike = "*";
+          this.anbarSearch.initLike = "*";
+          this.anbarSearch.nameLike = "*";
+          this.anbarSearch.stateLike = "*";         
+          if(this.filter_city){
+                this.anbarSearch.cityLike = this.filter_city;
+                this.bFilter = true;
+          }
+      
+          if(this.filter_name){
+                this.anbarSearch.nameLike = this.filter_name;
+                this.bFilter = true;
+          }
+          if(this.filter_state){
+                this.anbarSearch.stateLike = this.filter_state;
+                this.bFilter = true;
+          }
+
+          if(this.filter_dist) {
+                this.anbarSearch.distLike = this.filter_dist;
+                this.bFilter = true;
+          }
+
+          if(this.filter_guru) {
+                this.anbarSearch.initLike = this.filter_guru;
+                this.bFilter = true;
+          }
+
+          if(this.bFilter) {
+            console.log('anbar.list.ts : filter values city',this.filter_city);
+            console.log('anbar.list.ts : filter values name ',this.filter_name);
+            console.log('anbar.list.ts : filter values state',this.filter_state);
+            console.log('anbar.list.ts : filter values dist',this.filter_dist);
+            console.log('anbar.list.ts : filter values guru',this.filter_guru);
+
+            this.as.getAllAnbarByCriteria(this.anbarSearch).subscribe(
+            data => this.AnbarList = data,
+            err => console.log(err),
+            () =>{this.anbarListCount = AnbarList.length; 
+                    this.totalPages = this.totalRecords / this.pageSize; 
+                    this.populatePageArray();}
+            );
+
+          }
+          else{  
+              this.as.getAnbarsByPage(this.pageSize,this.currentPageNo).subscribe(
+              data => this.AnbarList = data,
+              err => console.log(err),
+              () =>{this.anbarListCount = AnbarList.length; 
+                    this.totalPages = this.totalRecords / this.pageSize; 
+                    this.populatePageArray();}
+               );
+          }
           this.nonEdit = true;
           this.mode = '';
           this.showDetail = 0; 
           console.log('Total RECORDs'+this.totalRecords);
-          this.totalPages = this.totalRecords / this.pageSize; 
-          this.populatePageArray();
+         
+    }
+
+    getAllAnbarCity()
+    {
+          this.as.getAllAnbarCityByPage().subscribe(
+          data => this.nameCityList = data,
+          err => console.log(err)
+          );
+    }
+
+     getAllGuruNames()
+    {
+          this.as.getAllGuruNames().subscribe(
+          data => this.guruNames = data,
+          err => console.log(err)
+          );
     }
 
     getAnbars()
@@ -149,18 +229,28 @@ export class AnbarList {
   //modify button  
   modifyAnbar(){
   
+      if(this.showDetail != 1)
+        alert("No Record Selected ");
+      else {
       this.mode ='M';
       this.nonEdit = false;
-
+      }
    } 
   
   //add button
   addNewAnbar(){
-  
+
+    if(this.showDetail != 1){
+        this.nonEdit = true;
+      //this.anbar = selectedAnbar;
+      this.anbar = new AnbarInfo;  // deep copy 
+      this.showDetail = 1;
+    }
+    
     this.mode ='A';
     this.resetAnbar();    
     this.nonEdit = false;
-
+    
   }
 
   getAnbarCountInDb(){
@@ -176,10 +266,14 @@ export class AnbarList {
 
   //copy button
   copyNewAnbar(){
-
-    this.nonEdit = false;
-    this.mode ='C';
-    this.anbar.userName = '';
+    if(this.showDetail != 1)
+        alert("No Record Selected ");
+    else
+    {
+      this.nonEdit = false;
+      this.mode ='C';
+      this.anbar.userName = '';
+    }
   }
 
   //save button 
@@ -242,5 +336,12 @@ export class AnbarList {
     console.log('User Selected :'+selectedAnbar.userName + ":"+selectedAnbar.phoneNo);
   }
 
+changed(event:any) {
+    this.anbar.initThru = event;
+  }
 
+selectG(guruSelected:string){
+  console.log('Guru Selected :'+guruSelected);
+this.filter_guru = guruSelected;
+}
 }

@@ -5,8 +5,8 @@ import {TransactionService} from '../../services/transaction/transaction.service
 import {TranCode} from '../trancode/tran-code';
 @Component({
   selector: 'trans-list',
-  templateUrl: '../../../tmpls/transaction/trans-list.tmpl.html',
- // templateUrl: '../../../tmpls/transaction/trans-add.tmpl.html',
+  //templateUrl: '../../../tmpls/transaction/trans-list.tmpl.html',
+  templateUrl: '../../../tmpls/transaction/trans-add.tmpl.html',
   providers: [TransactionService]
   //styleUrls:['./list-comp.styles.css']
 })
