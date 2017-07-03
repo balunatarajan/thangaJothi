@@ -1,5 +1,6 @@
 package sabai.book;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +19,8 @@ public class BookTrans {
 	private Date createdttm;
 	private Date moddttm;
 	private String user;
-
-
+	
+	
 	public BookTrans(){
 	}
 

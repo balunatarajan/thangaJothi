@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sabai.book.BookData;
-import sabai.book.BookTranRepository;
 import sabai.book.BookTrans;
 import sabai.helper.Adoptar;
 import sabai.helper.RetVal;
+import sabai.repo.BookTranRepository;
 
 @Service
 public class BookService {
@@ -49,4 +49,5 @@ public class BookService {
 
 		return data;
 	}
+	
 }

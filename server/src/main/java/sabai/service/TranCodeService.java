@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import sabai.helper.Adoptar;
 import sabai.helper.RetVal;
+import sabai.repo.TranCodeRepository;
 import sabai.trancode.TranCode;
 import sabai.trancode.TranCodeMaster;
-import sabai.trancode.TranCodeRepository;
 
 @Service
 public class TranCodeService {
