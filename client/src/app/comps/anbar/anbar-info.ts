@@ -10,4 +10,5 @@ export class AnbarInfo {
      public   state:string;
      public   country:string;
      public   userId:string;
+     public   initDate:string;
 }

@@ -10,14 +10,14 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AnbarService {
-
+phpserver:number = 1;  // 0 - spring boot, 1 - local php , 2- remote php
 getData:string;
 private serverIp:string ='blrlw4258';
 private serverPort:string='4040';
 private url : string = 'http://'+this.serverIp+':'+this.serverPort;
 
 private getAnbarUrl: string = this.url+ '/rest/tjgs/anbar/all';
-private getAnbarCityUrl: string = this.url+ '/rest/tjgs/anbar/namecityall';
+private getAnbarAllUrl: string = this.url+ '/rest/tjgs/anbar/nameall';
 private getAnbarByPageUrl: string = this.url+ '/rest/tjgs/anbar/allbypage';
 private getGuruAllUrl: string = this.url+ '/rest/tjgs/guru/all';
 private postAddAnbarUrl: string = this.url+ '/rest/tjgs/anbar/add';
@@ -27,6 +27,13 @@ private getAnbarByCrit: string = this.url+'/rest/tjgs/anbar/filterby';
 
 constructor(private http : Http){}
 
+
+public  getAnbarAllNames() :Observable<string[]>{
+ 
+        console.log('Inside getAnbarAllNames .. ');
+        return this.http.get(this.getAnbarAllUrl)
+                  .map(this.extractCount);
+}
 public  getAnbarCountInDb() :Observable<Count> {
         //getCount?table=anbar
         console.log('Inside getAnbarCountInDb .. ');
@@ -65,17 +72,30 @@ public addNewAnbar(ai:AnbarInfo){
             //let authToken = this._user.getUser().JWT;
             //headers.append('Content-Type', 'application/json');
             //headers.append('Authorization', `Bearer ${authToken}`);
-            var headers = new Headers ({ 'Content-Type': 'application/json','Accept':'application/json' });
-            //var options = new RequestOptions({headers: headers}, {method: RequestMethod.Post});
-            let options = new RequestOptions({ headers: headers });
-            //let test_this = {"search": "person"};
+           let headers = new Headers({'Content-Type': 'application/json'});
+           let options = new RequestOptions({headers: headers});
+        
+          // var headers = new Headers ({ 'Content-Type': 'application/json','Accept':'application/json' });
+           // let options = new RequestOptions({ headers: headers, method: "post"  });
+         
             var anbarToPost = JSON.stringify(ai);
             
             console.log('Post anbar : before service call : '+anbarToPost);
+            var URL = this.postAddAnbarUrl;
             //or = new Observable<Response>();
-            return  this.http.post(this.postAddAnbarUrl, anbarToPost, options).
+            if(this.phpserver == 1){   
+                URL = 'http://localhost:8089/createanbar.php';
+                //when we pass options JSON is not reaching php
+                return  this.http.post(URL, anbarToPost).
                                                 map((res:any) => res.json());
-                                                    
+            }
+            else if(this.phpserver == 2) {
+
+            }   
+            else{
+            return  this.http.post(URL, anbarToPost, options).
+                                                map((res:any) => res.json());
+            }                                   
             // testing 
             //this.url = 'http://date.jsontest.com';
             // return this.http.get(this.getAnbarUrl)
@@ -96,10 +116,16 @@ public getAnbarsByPage(pageSize : number,pageNo : number) :Observable<AnbarInfo[
 
          var headers = new Headers ({ 'Content-Type': 'application/json','Accept':'application/json' });
          let options = new RequestOptions({ headers: headers });
-           
-        console.log('URL ' + this.getAnbarByPageUrl+'?page='+pageNo+'&size='+pageSize);
-        return this.http.get(this.getAnbarByPageUrl+'?page='+pageNo+'&size='+pageSize)
-                    .map(this.extractAnbars);
+        var url = this.getAnbarByPageUrl+'?page='+pageNo+'&size='+pageSize;
+        if(this.phpserver == 1){   
+                url = 'http://localhost:8089/getallanbargal.php'+'?page='+pageNo+'&size='+pageSize;
+        }
+        else if(this.phpserver == 2){   
+                    url = 'http://apps.vallalyaar.com/getanbar.php'+'?page='+pageNo+'&size='+pageSize;
+                    //url = 'http://apps.vallalyaar.com/json1.php';
+        }
+        return this.http.get(url).map(this.extractAnbars);
+       
 }
 
 
@@ -109,16 +135,12 @@ public getAllAnbarByCriteria(anbarSearch: AnbarSearch) :Observable<AnbarInfo[]> 
                                         +'&initLike='+ anbarSearch.initLike 
                                         +'&cityLike='+ anbarSearch.cityLike 
                                         +'&distLike='+anbarSearch.distLike
-                                        +'&stateLike='+anbarSearch.stateLike;
+                                        +'&stateLike='+anbarSearch.stateLike
+                                        +'&fDate='+anbarSearch.fDate
+                                        +'&tDate='+anbarSearch.tDate;
         console.log('search ' + url);
         
         return this.http.get(url)
-                    .map(this.extractAnbars);
-}
-
-public getAllAnbarCityByPage() :Observable<string[]> {
-        console.log('URL ' + this.getAnbarCityUrl);
-        return this.http.get(this.getAnbarCityUrl)
                     .map(this.extractAnbars);
 }
 
@@ -137,7 +159,7 @@ GetAnbars() :Observable<AnbarInfo[]> {
 }
     //utility method
 extractAnbars(resp: Response){
-        
+        console.log('end ' + 'http://localhost:8089/getallanbargal.php');
         let body = resp.json();
         return body || [] ;  // if body is null return empty array []
 }
@@ -172,4 +194,15 @@ private extractData(res: Response) {
         console.error(errMsg);
         return Observable.throw(errMsg);
   }*/
+public getAnbarsPhp() :Observable<AnbarInfo[]> {
+        // headers.append('Access-Control-Allow-Origin','*');
+
+         var headers = new Headers ({ 'Content-Type': 'application/json','Accept':'application/json' });
+         let options = new RequestOptions({ headers: headers });
+           
+        return this.http.get('http://localhost:8089/getallanbargal.php')
+                    .map(this.extractAnbars);
+}
+
+
 }

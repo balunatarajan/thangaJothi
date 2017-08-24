@@ -3,6 +3,7 @@
 import {Injectable} from '@angular/core';
 import {Count} from '../../comps/other/Count';
 import {TranInfo} from '../../comps/transaction/tran-info';
+import {TranSearch} from '../../comps/transaction/tran-search';
 import {TranCode} from '../../comps/trancode/tran-code';
 
 import {Http,Response,RequestOptions,RequestMethod,Headers} from '@angular/http';
@@ -18,18 +19,44 @@ export class TransactionService {
     private serverPort:string='4040';
     private url : string = 'http://'+this.serverIp+':'+this.serverPort;
 
-    private getTransactionUrl: string = this.url+ '/tjgs/tran/all';
-    private getTransactionByPageUrl: string = this.url+ '/tjgs/tran/allbypage';
-    private postAddTransactionUrl: string = this.url+ '/tjgs/tran/add';
-    private putAddTransactionUrl: string = this.url+ '/tjgs/tran/modify';
-    private getCountUrl: string = this.url+'/tjgs/getCount'; 
+    private getTransactionUrl: string = this.url+ '/rest/tjgs/tran/all';
+    private getTransactionByPageUrl: string = this.url+ '/rest/tjgs/tran/allbypage';
+    private postAddTransactionUrl: string = this.url+ '/rest/tjgs/tran/add';
+    private putAddTransactionUrl: string = this.url+ '/rest/tjgs/tran/modify';
+    private getCountUrl: string = this.url+'/rest/tjgs/getCount'; 
 
-    private postAddTranCodeUrl: string = this.url+ '/tjgs/tranhead/add';
-    private putTranCodeUrl: string = this.url+ '/tjgs/tranhead/modify';
-    private getTranCodeUrl: string = this.url+ '/tjgs/tranhead/all';
+    private postAddTranCodeUrl: string = this.url+ '/rest/tjgs/tranhead/add';
+    private putTranCodeUrl: string = this.url+ '/rest/tjgs/tranhead/modify';
+    private getTranCodeUrl: string = this.url+ '/rest/tjgs/tranhead/all';
+    private getTransactionByCrit:string = this.url+ '/rest/tjgs/tran/criteria';
+    private reportHUrl: string = this.url+ '/rest/tjgs/tran/report/headerwise';
+    private reportMUrl: string = this.url+ '/rest/tjgs/tran/report/monthwise';
+
 constructor(private http : Http){}
 
-     
+public getAllTransByCriteria(tranSearch:TranSearch) :Observable<TranInfo[]>{
+        var search = JSON.stringify(tranSearch);
+        var url = this.getTransactionByCrit+'?tcLike='+ tranSearch.tcLike 
+                                        +'&fDate='+ tranSearch.fDate 
+                                        +'&tDate='+ tranSearch.tDate 
+                                        +'&descLike='+tranSearch.descLike
+                                        +'&voucherLike='+tranSearch.voucherLike;
+      
+        return this.http.get(url)
+                    .map(this.extractTrans);
+}
+
+public getAllTransForYear(yearOf:number) :Observable<TranInfo[]>{
+      
+        return this.http.get(this.reportMUrl+'?year='+ yearOf)
+                    .map(this.extractTrans);
+}
+
+public getAllTransForYearHeaderWise(yearOf:number) :Observable<TranInfo[]>{
+        return this.http.get(this.reportHUrl+'?year='+ yearOf)
+                    .map(this.extractTrans);
+}
+
 
 public  getTransCountInDb() :Observable<Count> {
         //getCount?table=anbar

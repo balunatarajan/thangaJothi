@@ -1,0 +1,50 @@
+
+
+<!-- div class="row photo">
+    <div class="col-md-4">
+        <div *ngFor="let book of bookList">
+            {{book.bookName}}
+           <img  src="{{fullImagePath + book.bookImgName}}">
+        </div>
+    </div>
+</div -->
+
+<table class="table table-striped">
+  
+    <tbody>
+       <tr  *ngFor="let book of bookListC;let i = index">
+          <div class="thumbnail">
+                <a href="{{fullImagePath + book.imageName}}" target="_blank">
+                  <img class="img-responsive" alt={{book.dataName}} 
+                 src="{{fullImagePath + book.imageName}}">
+                </a>
+           </div>
+        </tr>
+    </tbody>
+    </table>
+
+<div class="container">
+    <div class="row">
+    <div  *ngFor="let book of bookListC">
+        
+        <div class="col-sm-12 col-md-6 col-lg-1">
+            <div class="thumbnail">
+                <a href="{{fullImagePath + book.imageName}}" target="_blank">
+                  <img class="img-responsive" alt={{book.dataName}} 
+                 src="{{fullImagePath + book.imageName}}">
+                <!--figure class="effect-julia"> </figure -->
+                </a>
+             </div>
+         </div>
+    </div>
+    </div>
+</div>
+<!--style>
+    .photo {
+    text-align: center; /*for centering images inside*/
+}
+.photo img {
+    width: 100px; /*set the width or max-width*/
+    height: auto; /*this makes sure to maintain the aspect ratio*/
+}
+</style -->

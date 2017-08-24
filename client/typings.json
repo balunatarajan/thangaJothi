@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
-    "hammerjs": "registry:dt/hammerjs#2.0.8+20161224203613"
+    "hammerjs": "registry:dt/hammerjs#2.0.8+20161224203613",
+    "jspdf": "registry:dt/jspdf#1.1.135+20160921164505"
   }
 }

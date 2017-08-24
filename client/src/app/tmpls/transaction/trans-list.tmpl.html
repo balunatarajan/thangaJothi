@@ -13,113 +13,228 @@
   <div *ngIf="failed" class="alert alert-danger">
                     <strong> Invalid credentials, please retry! </strong>
   </div>
-  <div>
-      <table class="table table-striped">
-       <th>
-         
-           </th>         
-          <th> <input type="date" placeholder="Transaction Date" required name="uname"  class="form-control"></th> 
-          <th> <input type="text" placeholder="Description" required name="Dist"  class="form-control"></th> 
-          <th> <input type="text" placeholder="Header Code" required name="Dist"  class="form-control"></th> 
-          
-          <th> <button class="btn btn-primary pull-right btn-md" type="submit" >List</button></th>
-      </table>       
+  <div class="row">  
+      
+        <div class="col-sm-2">
+            <div class="form-group">
+                <a data-toggle="modal"  data-target="#tranCodeModal">
+                    <label for="HC">Header:</label>
+                    <input type="text"  [(ngModel)]="selectedTranCode" class="form-control" id="HC" 
+                    placeholder="Header Code " name="HC">  
+                </a>
+            </div>
+        </div>     
+
+      <div class="col-sm-2">
+          <label>From Date </label>   
+          <input type="date" [(ngModel)]="selectedFromDate" placeholder="From Date" required name="fdate" 
+           class="form-control">
+      </div>
+
+      <div class="col-sm-2">
+          <label>To Date </label>   
+          <input type="date" [(ngModel)]="selectedToDate" placeholder="to Date" required name="fdate"  class="form-control">
+      </div>
+
+      <div class="col-sm-2">
+          <label>Description </label>   
+              <input type="text" [(ngModel)]="selectedDesc" placeholder="Description" required name="desc"  class="form-control">
+      </div>
+
+      <div class="col-sm-2">
+          <label>Voucher No </label>   
+              <input type="text" [(ngModel)]="selectedVoucher" placeholder="Voucher No" required name="Vno"  class="form-control">
+      </div>
+
+      <div class="col-sm-2">
+          <label>Click To See  </label>   
+                <button class="btn btn-primary pull-left btn-md" type="submit" >List Transaction</button>
+      </div>              
   </div>
   
   <div *ngIf="transListCount"> 
-  <div class="panel panel-default">
-        <div class="panel-heading" style="background-color:yellow"> Income-Expenses of Thanga Jothi Gnana Sabai Trust</div>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:yellow"> 
+            Income-Expenses of Thanga Jothi Gnana Sabai Trust
+        </div>
         
         <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>From Date </th>
-            <th>To   Date </th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Income-Expense</th>
-            
-        </tr>
-        </thead>
-        <tbody>
-                <tr class="item" *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">>
-                    <td>  {{trans.transDate}}  </td>
-                    <td>  {{trans.description}}  </td>
-                    <td>  {{trans.amount}}      </td>
-                    <td>  {{trans.headerCode}}      </td>
-                </tr>
-         <tbody>
-        </table>
-  </div>
-  
-  <div class="btn-group">
-    <a class="btn btn-info" role="button" (click)="addNewTransaction()" > Add New  </a>
-    <a class="btn btn-info" role="button"(click)="modifyTransaction()" > Modify   </a>
-    <a class="btn btn-info" role="button" (click)="copyNewTransaction()"> Copy    </a>
-    <a class="btn btn-info" role="button"(click)="deleteTransaction()">  Delete  </a>
-  </div>
- 
-  <div class="pagination pagination-sm">
-        <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
-        <a  *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)" 
-         class="btn btn-info" role="button" >{{page}}</a>
-        <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
-  </div>  
-  
+            <thead>
+            <tr>
+                <th>Date Of Transction </th>
+                <th>Description</th>
+                <th>Amount in Rs.</th>
+                <th>Header</th>
+                <th>Voucher #</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                    <tr class="item" *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">
+                        <!-- td>  {{trans.transDate}}  </td -->
+                        <td> {{ trans.transDate | date :'dd-MMM-yyyy'}} </td>
+                        <td>  {{trans.description}}  </td>
+                        <td>  {{trans.amount | currency:'INR':true}}      </td>
+                        
+                        <td>  {{trans.headerCode}}      </td>
+                        <td>  {{trans.voucherNo}}      </td>
+                        <td>  <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                         data-target="#tranDetailModal">Open</button> </td>
 
-<!--/section -->
-  <!--div id="myModal" class="modal" -->
-   <div *ngIf="showDetail == 1"> 
-           
-           <div class="input-group">
-            <input [disabled]="nonEdit"  id="desc" type="date" class="form-control" name="td" 
-                [(ngModel)]="trans.transDate" placeholder="Transcation Date">
-                <span class="input-group-addon bg-primary" style="background-color:yellow">Transcation Date       </span>
-            </div>
-            
-            <div class="input-group">
-                 
-                <input [disabled]="nonEdit"   id="desc" type="text" class="form-control" name="Desc" 
-                [(ngModel)]="trans.description" placeholder="Transcation Description">
-                <span class="input-group-addon"style="background-color:yellow" >Transcation Description</span>
-            </div>
-            <div class="input-group">
-                 
-                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="amt" 
-                [(ngModel)]="trans.amount" placeholder="Amount">
-                <span class="input-group-addon" style="background-color:yellow">Amount(Rs)</span>
-            </div>
-            <div class="input-group">
-                 
-                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="IE" 
-                [(ngModel)]="trans.inExp" placeholder="Transcation Description">
-                <span class="input-group-addon" style="background-color:yellow" >Income/Expense</span>
-            </div>
-            <div class="input-group">
-                 
-                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="Vo" 
-                [(ngModel)]="trans.voucherNo" placeholder="Voucher #">
-                <span class="input-group-addon" style="background-color:yellow">Voucher Number</span>
-            </div>
-            <div class="input-group">
-                 
-                <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="hc" 
-                [(ngModel)]="trans.headerCode" placeholder="Header Code">
-                <span class="input-group-addon" style="background-color:yellow">Header Code</span>
-            </div>
-            <div class="input-group">
-                 
-            <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="OI" 
-                [(ngModel)]="trans.otherInfo" placeholder="Other Info">
-                <span class="input-group-addon" style="background-color:yellow">Other Info</span>
-            </div>
-            <br>
-          
-            <div class="btn-group">
-                <a class="btn btn-info" role="button"(click)="saveButtonClicked()">  Save  </a>
-                <a class="btn btn-info" role="button"(click)="cancelButtonClicked()">  Cancel  </a>  
-            </div>
-        </div>        
-   </div>
+                    </tr>
+            <tbody>
+       </table>
+    
+    <div class="pagination pagination-sm" *ngIf="enablePaginationButton">
+            <a class="btn btn-info" role="button"(click)="setPageNumber(-1)">&laquo;</a>
+            <a  *ngFor="let page of pageList;let i = index"  (click)="selectPage(page)" 
+            class="btn btn-info" role="button" >{{page}}</a>
+            <a class="btn btn-info" role="button" (click)="setPageNumber(-2)">&raquo;</a>
+    
+    </div>  
+    </div>
+    </div>
+    <button type="button" (click)="addNewTranscation()" class="btn btn-info btn-sm" data-toggle="modal" 
+        data-target="#tranDetailModal">Add New</button>
+
+    <button type="button" (click)="savePDF()" class="btn btn-info btn-sm">Save PDF</button>
+
 </form>     
 
+<!-- start of  TranHeader modal -->
+ <div class="modal fade" id="tranCodeModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Code </h4>
+        </div>
+  
+        <div class="modal-body">
+            <ng-container *ngFor="let nc of tCodeList; let i = index" >
+                <button class="btn form-control btn-warning btn-rounded" 
+                    [value]="nc.tranCode"  (click)="selectTranCode(nc.tranCode)" data-dismiss="modal">
+                    {{nc.tranDesc}}
+                </button>
+            </ng-container>
+
+        </div>
+            
+        <div class="modal-footer">
+           <button type="button" class="flat-butt flat-outer-butt" data-dismiss="modal">Close</button>
+         </div>
+     
+      </div>
+      
+    </div>
+  </div>
+  <!-- end of modal -->
+
+
+<div class="modal fade" id="tranDetailModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+  
+           <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Transaction Details </h4>
+            </div>
+  
+       <div class="modal-body">
+ 
+          <div class="row">  
+                 <div class="col-sm-6">
+                    <div class="input-group">
+                        <textarea rows="4" cols="50"   [disabled]="nonEdit"   id="desc" type="test" class="form-control" name="Desc" 
+                                [(ngModel)]="trans.description" placeholder="Transcation Description">
+                        </textarea>
+                            <span class="input-group-addon"style="background-color:yellow" > Description</span>
+                    </div>
+                </div>
+               <div class="col-sm-6">
+                    <div class="input-group">
+                        <!--input [disabled]="nonEdit"  id="desc" type="date" class="form-control" name="td" 
+                            [(ngModel)]="trans.transDate" placeholder="Transcation Date"-->
+                          <input [ngModel]="trans.transDate | date:'yyyy-MM-dd'"
+                                 (ngModelChange)="trans.transDate = $event" 
+                                 class="form-control" [disabled]="nonEdit"  type="date" name="initDate"/>
+                        <span class="input-group-addon bg-primary" style="background-color:yellow">Transcation Date       </span>
+                    </div>
+                </div>
+            
+               <div class="col-sm-6">
+                   <div class="input-group">
+                        <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="amt" 
+                        [(ngModel)]="trans.amount" placeholder="Amount">
+                        <span class="input-group-addon" style="background-color:yellow">Amount(Rs)</span>
+                    </div>
+               </div>
+            
+            <div class="col-sm-6">
+                    <div class="input-group">
+                        <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="IE" 
+                        [(ngModel)]="trans.inExp" placeholder="Transcation Description">
+                        <span class="input-group-addon" style="background-color:yellow" >Income/Expense</span>
+                    </div>
+           </div>
+           
+            <div class="col-sm-6">
+                 <div class="input-group">
+                    <input [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="Vo" 
+                    [(ngModel)]="trans.voucherNo" placeholder="Voucher #">
+                    <span class="input-group-addon" style="background-color:yellow">Voucher Number</span>
+                </div>
+            </div>
+     
+            <div class="col-sm-6">
+                 <div class="input-group">
+                    <input [disabled]="nonEdit"  id="desc" type="text" class="form-control"  list="codes" name="hc" 
+                    [(ngModel)]="trans.headerCode" placeholder="Header Code">
+                        <datalist id="codes">
+                             <option *ngFor="let nc of tCodeList" [value]="nc.tranCode"> {{nc.tranDesc}} </option>      
+                        </datalist>
+                     <span class="input-group-addon" style="background-color:yellow">Header Code</span>
+                </div>
+            </div>
+     
+
+            <div class="col-sm-6">
+                  <div class="input-group">
+                        <textarea rows="2" cols="50" [disabled]="nonEdit"  id="desc" type="text" class="form-control" name="OI" 
+                        [(ngModel)]="trans.otherInfo" placeholder="Other Info">
+                        </textarea>
+                        <span class="input-group-addon" style="background-color:yellow">Other Info</span>
+                  </div>
+            </div>
+          
+          </div>  
+          
+        </div>        
+        
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-sm-6" >
+                        <div class="btn-group">
+                            <a class="btn btn-info" role="button" (click)="addNewTransaction()" > Add New  </a>
+                            <a class="btn btn-info" role="button"(click)="modifyTransaction()" > Modify   </a>
+                            <a class="btn btn-info" role="button" (click)="copyNewTransaction()"> Copy    </a>
+                            <a class="btn btn-info" role="button"(click)="deleteTransaction()">  Delete  </a>
+                        </div>
+                </div>
+                <div class="col-sm-6 col-sm-pull-0" >
+                    <div class="btn-group">
+                        <a class="btn btn-primary" role="button"(click)="saveButtonClicked()" data-dismiss="modal">  Save  </a>
+                        <a class="btn btn-warning" role="button"(click)="cancelButtonClicked()" data-dismiss="modal">  Cancel  </a>  
+                    </div>
+                </div>
+            </div> 
+        </div>
+   
+   </div>
+  </div> 
+</div>  <!-- End of moda -->
+    
+  

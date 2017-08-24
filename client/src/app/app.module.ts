@@ -21,6 +21,7 @@ import {TransactionService} from './services/transaction/transaction.service';
 import {TransactionList} from './comps/transaction/transaction.list';
 import {TranCodeList} from './comps/trancode/trancode.list';
 import {BookList} from './comps/books/books.list';
+import {GenerateReport} from './comps/report/comp.report';
 //import { MaterialModule } from '@angular/material';
 
 @NgModule({
@@ -28,7 +29,7 @@ import {BookList} from './comps/books/books.list';
                   MdDatepickerModule,MaterialModule, MdNativeDateModule,NoopAnimationsModule],
   //InputTextModule,DataTableModule,ButtonModule,DialogModule],
   
-  declarations: [ AppComponent,SignIn,Login,ContactUs,AnbarList,TransactionList,TranCodeList,BookList],
+  declarations: [ AppComponent,SignIn,Login,ContactUs,AnbarList,TransactionList,TranCodeList,BookList,GenerateReport],
   bootstrap:    [ AppComponent ],
   providers: [AnbarService,TransactionService]
 })

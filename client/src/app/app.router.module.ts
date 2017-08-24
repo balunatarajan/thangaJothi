@@ -14,6 +14,7 @@ import {ContactUs} from './comps/other/contactus';
 import {TransactionList} from './comps/transaction/transaction.list';
 import {TranCodeList} from './comps/trancode/trancode.list';
 import {BookList} from './comps/books/books.list';
+import {GenerateReport} from './comps/report/comp.report';
 
 // array of valid URLs of this path
 const appRoutePaths=[
@@ -24,6 +25,7 @@ const appRoutePaths=[
     {path:'rTranList', component:TransactionList},
     {path:'rTranCode', component:TranCodeList},
     {path:'rBookList', component:BookList},
+    {path:'rReport', component:GenerateReport},
     
     {path:'', redirectTo:'/rcontactUs',pathMatch:'full'}
 ];

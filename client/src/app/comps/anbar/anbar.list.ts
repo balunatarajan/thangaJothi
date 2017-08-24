@@ -8,7 +8,6 @@ import {MasterDataC} from './../other/masterData';
 @Component({
   selector: 'anbar-list',
   templateUrl: '../../../tmpls/anbar/anbar-list.tmpl.html',
-  //templateUrl: '../../../tmpls/anbar/anbar-list.tmpl.prime.html',
   providers: [AnbarService]
   //, // worked without this how?
   //styleUrls:['./list-comp.styles.css']
@@ -41,6 +40,8 @@ export class AnbarList {
   filter_city:string;
   filter_dist:string;
   filter_state:string;
+  filter_fDate:string;
+  filter_tDate:string;
   bFilter: boolean;
 
  constructor(private as:AnbarService) {
@@ -56,6 +57,7 @@ export class AnbarList {
     this.populatePageArray();
     this.title = "Select Guru";
     this.bFilter = false;
+    this.anbar = new AnbarInfo;  // deep copy 
   }
   
   ngOnInit(){
@@ -133,6 +135,8 @@ export class AnbarList {
           this.anbarSearch.initLike = "*";
           this.anbarSearch.nameLike = "*";
           this.anbarSearch.stateLike = "*";         
+          this.anbarSearch.fDate ='*';
+          this.anbarSearch.tDate ='*';
           if(this.filter_city){
                 this.anbarSearch.cityLike = this.filter_city;
                 this.bFilter = true;
@@ -157,6 +161,17 @@ export class AnbarList {
                 this.bFilter = true;
           }
 
+          if(this.filter_fDate) {
+                this.anbarSearch.fDate = this.filter_fDate;
+                this.bFilter = true;
+          }
+
+          
+          if(this.filter_tDate) {
+                this.anbarSearch.tDate = this.filter_tDate;
+                this.bFilter = true;
+          }
+
           if(this.bFilter) {
             console.log('anbar.list.ts : filter values city',this.filter_city);
             console.log('anbar.list.ts : filter values name ',this.filter_name);
@@ -178,6 +193,7 @@ export class AnbarList {
               data => this.AnbarList = data,
               err => console.log(err),
               () =>{this.anbarListCount = AnbarList.length; 
+                    console.log('anbarListCount--->>>>>>'+this.anbarListCount);
                     this.totalPages = this.totalRecords / this.pageSize; 
                     this.populatePageArray();}
                );
@@ -191,10 +207,10 @@ export class AnbarList {
 
     getAllAnbarCity()
     {
-          this.as.getAllAnbarCityByPage().subscribe(
+         /* this.as.getAllAnbarCityByPage().subscribe(
           data => this.nameCityList = data,
           err => console.log(err)
-          );
+          );*/
     }
 
      getAllGuruNames()
@@ -239,13 +255,6 @@ export class AnbarList {
   
   //add button
   addNewAnbar(){
-
-    if(this.showDetail != 1){
-        this.nonEdit = true;
-      //this.anbar = selectedAnbar;
-      this.anbar = new AnbarInfo;  // deep copy 
-      this.showDetail = 1;
-    }
     
     this.mode ='A';
     this.resetAnbar();    
@@ -344,4 +353,19 @@ selectG(guruSelected:string){
   console.log('Guru Selected :'+guruSelected);
 this.filter_guru = guruSelected;
 }
+
+listAnbarPhp(){
+   this.as.getAnbarsPhp()
+               .subscribe(
+                          data => this.getData =  JSON.stringify(data),
+                          error => alert('ALERT __'+error),
+                          () => this.getAnbarsByPhp()
+                         );
+
+}
+getAnbarsByPhp(){
+  console.log('PHP ------------->\n');
+  console.log(this.getData);
+}
+
 }

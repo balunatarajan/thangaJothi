@@ -4,5 +4,6 @@ export class AnbarSearch{
     cityLike : string;
     distLike : string;
     stateLike : string;
-
+    fDate:string;
+    tDate:string;
 }

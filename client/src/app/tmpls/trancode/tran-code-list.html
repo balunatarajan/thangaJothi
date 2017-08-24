@@ -1,26 +1,35 @@
 <form (ngSubmit)="getAllTranCode()">
     
-    <table>
-            <th> <input type="text" placeholder="Income Expense Code" required name="uname"  class="form-control"></th> 
-            <th> <input type="text" placeholder="Code Description" required name="Dist"  class="form-control"></th> 
-            <th> <button class="btn btn-primary pull-right btn-md" type="submit" >List</button></th>
-    </table>       
-    
+    <div class="row">
+        <div class="col-lg-3">
+             <label> Header Code </label>
+             <input type="text" placeholder="Income Expense Code" required name="uname"  class="form-control">
+        </div>
+        <div class="col-lg-3">
+            <label> Header Description </label>
+             <input type="text" placeholder="Code Description" required name="Dist"  class="form-control"> 
+        </div>
+
+        <div class="col-lg-3">
+            <label> To View Details Click Here  </label>
+             <button class="btn btn-primary btn-md" type="submit" >List Headers  </button>
+        </div>
+    </div>
+
     <div *ngIf="transListCount"> 
     <div class="panel panel-default">
     <div class="panel-heading"> Income-Expenses Code Thanga Jothi Gnana Sabai Trust</div>
+    
     <table class="table  table-striped">
+        <thead>    
         <th>Income Expense Code</th> <th>Description</th> 
-        <div class="item" *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">
-            <tr>
-                    <td>  {{trans.tranCode}}  </td>
-                    <td>  {{trans.tranDesc}}  </td>
-                    <td>
-                    <input type="radio" name="transR" [value]="i" (change) ="onSelection(trans)">
-                    </td>             
+        </thead>
+         <tbody>
+            <tr *ngFor="let trans of transList;let i = index"  (click)="selectCall(trans)">
+                <td>  {{trans.tranCode}}  </td>
+                <td>  {{trans.tranDesc}}  </td>
             </tr>
-            <hr>
-        </div>
+         </tbody>  
     </table>
     </div>
 

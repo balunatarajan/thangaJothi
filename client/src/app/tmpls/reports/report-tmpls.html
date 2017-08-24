@@ -1,0 +1,40 @@
+
+
+<h1> Thanga Jothi Gnana Sabai Trust - Reports </h1>
+    <div class="panel panel-info">
+        <div class="panel-heading"> 
+            Generate Report     
+        </div>
+     <hr>
+             
+          <div class="row"> 
+             <div class="col-sm-4">
+                   <label> Monthly report - year ending </label>
+             </div>
+             <div class="col-sm-4">
+                  <input type="number"  class="form-control"  placeholder="Year Ending" [(ngModel)]="yearEndM"   min="2014" >
+             </div>
+                
+             <div class="col-sm-4">
+                 <a class="btn btn-info form-control" role="button"(click)="getMonthlyReport()">Generate</a>
+             </div>
+<hr>
+
+              <div class="col-sm-4">
+                       <label>Transaction header wise report - year ending </label>
+                </div>
+              <div class="col-sm-4">
+                    <input type="number"  class="form-control" placeholder="Year Ending" [(ngModel)]="yearEndH"  min="2014" >   
+               </div>
+               <div class="col-sm-4">
+                   <a class="btn btn-info form-control" role="button"(click)="getHeaderWiseReport()">Generate</a>
+               </div>
+          </div>
+    
+<hr>
+
+        <div class="panel-footer"> 
+            Thanga Jothi Gnana Sabai Trust - Lotus feet of God is our eyes
+        </div>
+    
+    </div>
