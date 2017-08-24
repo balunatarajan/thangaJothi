@@ -121,8 +121,9 @@ public class GoogleDriveSheet {
 		List<List<Object>> values = response.getValues();
 		if (values == null || values.size() == 0) {
 			System.err.println("No data found.");
-		} else {
-			System.err.println("Name, Major");
+		} else 	if(option == 1)
+			{
+			System.err.println("Name, Major size =  " +values.size());
 			for (List row : values) {
 				// Print columns A and E, which correspond to indices 0 and 4.
 				System.err.printf("ROW - %s, %s %s %s %s %s\n", row.get(0), row.get(1),row.get(2), row.get(3),row.get(4), row.get(5));

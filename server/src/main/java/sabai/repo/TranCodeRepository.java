@@ -2,7 +2,6 @@ package sabai.repo;
 
 import org.springframework.data.repository.CrudRepository;
 
-import sabai.*;
 import sabai.trancode.TranCodeMaster;
 
 import java.util.List;

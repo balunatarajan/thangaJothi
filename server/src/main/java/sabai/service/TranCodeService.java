@@ -48,7 +48,7 @@ public class TranCodeService {
 		List<TranCodeMaster> listA = tranCodeRepository.findAll();
 		List<TranCode> listB = new ArrayList<>();
 		for (TranCodeMaster tcm : listA) {
-			System.err.println("getAllTranCodes---- :"+ tcm.getTranDesc());
+			//System.err.println("getAllTranCodes---- :"+ tcm.getTranDesc());
 			TranCode tc = new TranCode();
 			Adoptar.copyDatabaseToClientData(tcm, tc);
 			listB.add(tc);
@@ -56,6 +56,17 @@ public class TranCodeService {
 		return listB;
 	}
 	
+	public List<TranCode> getAllCodeList(){
+		List<TranCodeMaster> listA = tranCodeRepository.findAll();
+		List<TranCode> listB = new ArrayList<>();
+		for (TranCodeMaster tcm : listA) {
+			//System.err.println("getAllTranCodes---- :"+ tcm.getTranDesc());
+			TranCode tc = new TranCode();
+			Adoptar.copyDatabaseToClientData(tcm, tc);
+			listB.add(tc);
+		}
+		return listB;
+	}
 	public long getCount(){
 		return tranCodeRepository.count();
 	}

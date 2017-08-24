@@ -3,7 +3,6 @@ package sabai.repo;
 //import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 //import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,6 +21,9 @@ public interface AnbarRepository extends JpaRepository<Anbargal, Long>{ //, Quer
 	
 	@Query("select concat(c.username,c.city) from Anbargal c")
 	List<String> findMasterDataByType();
+	
+	@Query("select c.username from Anbargal c")
+	List<String> findAllUser();
 	
 	//@Query("select c from Customer c where c.email = :email")
     //Stream<Customer> findByEmailReturnStream(@Param("email") String email);

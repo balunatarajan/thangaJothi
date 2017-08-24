@@ -1,25 +1,27 @@
 package sabai.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.remoting.soap.SoapFaultException;
 import org.springframework.stereotype.Service;
-//import com.mysema.query.types.Predicate;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanExpression;
 
 import sabai.anbar.AnbarData;
-//import sabai.anbar.QAnbargal;
 import sabai.anbar.Anbargal;
 import sabai.anbar.QAnbargal;
 import sabai.anbar.SearchCriteria;
@@ -38,8 +40,9 @@ public class AnbarService {
 
 	@Autowired 
 	private MailService ms;
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	//private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LogManager.getLogger(AnbarService.class);
+   
 	
 	@Autowired
 	EntityManager em;
@@ -47,15 +50,18 @@ public class AnbarService {
 	public RetVal addAnbar(AnbarData data){
 		Anbargal newAnbar = new Anbargal();
 		//Ignore the userId, otherwise it will update instead of Insert in db
+		logger.debug("Add new anbar {} to the system",data.getUserName());
 		data.setUserId("");
 		Adoptar.copyClientDataToDatabase(data,newAnbar);
 		anbarRepository.save(newAnbar);
 		RetVal retval = new RetVal("PASS","Saved");
 
+		logger.debug("Sending to google sheet calling connectGoogleSheetAddData",data.getUserName());
 		List<Object> value = new ArrayList<>();
 		Adoptar.copyAnbargalToList(newAnbar,value);
 		miscObj.connectGoogleSheetAddData(value,1);
 		ms.sendAnbarAddMail(data);
+		logger.debug("Retrured from  Google sheet calling connectGoogleSheetAddData",data.getUserName());
 		return retval;
 	}
 
@@ -104,8 +110,8 @@ public class AnbarService {
 		return anbarRepository.count();
 	}
 	
-	public List<String> getAllAnbarCity(){
-		return anbarRepository.findMasterDataByType();
+	public List<String> getAllAnbar(){
+		return anbarRepository.findAllUser();
 	}
 	
 	public List<AnbarData> getAnbargalByCriteria(SearchCriteria criteria)
@@ -116,6 +122,8 @@ public class AnbarService {
 		String cityLike = criteria.getCityLike();
 		String distLike = criteria.getDistLike();
 		String stateLike = criteria.getStateLike();
+		String fDate = criteria.getfDate();
+		String tDate = criteria.gettDate();
 		logger.error("getAnbargalByCriteria .....+"+cityLike);
 		
 		//Predicate anbarSearchPredicate = (Predicate) QAnbargal.anbargal.username.eq(nameLike);
@@ -154,7 +162,7 @@ public class AnbarService {
                         new Object[] { firstname, lastname },
                         new PersonRowMapper());
 		}*/
-		
+		//JPQLQuery 
 		QAnbargal qanbar = QAnbargal.anbargal;
 		JPAQuery query = new JPAQuery(em).from(qanbar);
 		BooleanExpression whereClause = null;
@@ -199,12 +207,47 @@ public class AnbarService {
 				whereClause = be;
 		}
 
+		if(fDate != null && !fDate.equals("") && !fDate.equals("*"))
+		{
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+			Date startDate = null;
+			try {
+				startDate = df.parse(fDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			BooleanExpression be = qanbar.initdate.goe(startDate);
+			if(flag)
+				whereClause = whereClause.and(be);
+			else
+				whereClause = be;
+			
+		}
+		if(tDate != null && !tDate.equals("") && !tDate.equals("*"))
+		{
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+			Date toDate = null;
+			try {
+				toDate = df.parse(tDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		
+			BooleanExpression be  = qanbar.initdate.loe(toDate);
+			if(flag)
+				whereClause = whereClause.and(be);
+			else
+				whereClause = be;
+		
+		}
 		query.where(whereClause)
 			 .orderBy(qanbar.username.asc());
 			 
 		List<Anbargal> listA =  query.list(qanbar);
 			
-		for(Anbargal a: listA) System.out.println(a.getUserName()+a.getCity());
+		//for(Anbargal a: listA) System.out.println(a.getUserName()+a.getCity());
 		
 		
 		List<AnbarData> listB = new ArrayList<>();

@@ -2,7 +2,6 @@ package sabai.repo;
 
 //import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import sabai.transaction.Transaction;
 
 import java.util.List;

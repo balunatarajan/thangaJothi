@@ -3,9 +3,17 @@ package sabai.book;
 public class BookData {
 	private String bookName;
 	private String ownedBy;
+	private String location;
 	private Integer count;
 	private Integer bookTranId;
 
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
 	public void setBookName(String bookName)   {
 		this.bookName = bookName;   
 	}

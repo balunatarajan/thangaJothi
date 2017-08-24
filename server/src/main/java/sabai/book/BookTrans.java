@@ -20,7 +20,17 @@ public class BookTrans {
 	private Date moddttm;
 	private String user;
 	
+	@Column(name="location")
+	private String location;
 	
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public BookTrans(){
 	}
 

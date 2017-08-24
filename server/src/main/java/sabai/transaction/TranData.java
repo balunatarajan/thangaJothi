@@ -13,7 +13,13 @@ public class TranData {
 	private String otherInfo;
 	private String userName;
 	private String tranId;
-
+    
+	@Override
+	public String toString() {
+		return "TranData [transDate=" + transDate + ", description=" + description + ", amount=" + amount + ", inExp="
+				+ inExp + ", headerCode=" + headerCode + ", voucherNo=" + voucherNo + ", otherInfo=" + otherInfo
+				+ ", userName=" + userName + ", tranId=" + tranId + "]";
+	}
 	public String getTranId() {
 		return tranId;
 	}

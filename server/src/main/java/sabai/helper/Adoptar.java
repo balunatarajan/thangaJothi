@@ -30,6 +30,7 @@ public class Adoptar {
 		data.setLocality(adata.getLocality());
 		data.setState(adata.getState());
 		data.setCountry(adata.getCountry());
+		data.setInitdate(adata.getInitDate());
 		if(adata.getUserId() != null && adata.getUserId() != "" )  // for update mode its not null, for insert mode its null
 			data.setUserId(Integer.parseInt(adata.getUserId()));
 		Date date = new Date();
@@ -51,6 +52,7 @@ public class Adoptar {
 		data.setState(adata.getState());
 		data.setCountry(adata.getCountry());    
 		data.setUserId(Integer.toString(adata.getUserId()));
+		data.setInitDate(adata.getInitdate());
 	}
 
 	public static void copyClientDataToDatabase(TranData adata, Transaction data)  {
@@ -158,6 +160,7 @@ public class Adoptar {
 		data.setBookName(adata.getBookName());
 		data.setOwnedBy(adata.getOwnedBy());
 		data.setCount(adata.getCount());
+		data.setLocation(adata.getLocation());
 		data.setBookTranId(adata.getBookTranId());
 	}
 
@@ -176,7 +179,7 @@ public class Adoptar {
 		data.setBookTranId(adata.getBookTranId());
 
 		Date date = new Date();
-		if(adata.getBookTranId() == 0)// insert
+		if(adata.getBookTranId() == null || adata.getBookTranId() == 0)// insert
 		{
 			data.setBookTranId(null);
 			data.setCreateDttm(date); 

@@ -24,6 +24,7 @@ public class Anbargal {
 	private Date createdttm;
 	private Date moddttm;
 	private String user;
+	private Date initdate;
 	public String toString(){
 		return Integer.toString(userid)+":"+username+":"+emailid+":"+phoneno+":"
 				+address+":"+city+":"+initthru+":"+dist+":"+locality+":"+state
@@ -122,6 +123,12 @@ public class Anbargal {
 	}
 	public String getCountry() {
 		return this.country;
+	}
+	public Date getInitdate() {
+		return initdate;
+	}
+	public void setInitdate(Date initdate) {
+		this.initdate = initdate;
 	}
 
 }

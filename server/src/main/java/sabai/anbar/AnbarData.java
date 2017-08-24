@@ -1,6 +1,8 @@
 //@XmlRootElement
 package sabai.anbar;
 
+import java.util.Date;
+
 public class AnbarData {
 	private  String userName;
 	private  String phoneNo;
@@ -13,6 +15,7 @@ public class AnbarData {
 	private String state;
 	private String country;
 	private String userId;
+	private Date initDate;
 
 	public String getUserId() {
 		return userId;
@@ -81,7 +84,15 @@ public class AnbarData {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	public Date getInitDate() {
+		return initDate;
+	}
+	public void setInitDate(Date initDate) {
+		this.initDate = initDate;
+	}
 
-
+	public String toString(){	
+		return "AnbarData";
+	}
 
 }

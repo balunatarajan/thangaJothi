@@ -1,6 +1,10 @@
 package sabai.trancode;
 
 public class TranCode {
+	@Override
+	public String toString() {
+		return "TranCode [tranCode=" + tranCode + ", tranDesc=" + tranDesc + ", tranCodeId=" + tranCodeId + "]";
+	}
 	private String tranCode;
 	private String tranDesc;
 	private Integer tranCodeId;
